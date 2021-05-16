@@ -1,0 +1,21 @@
+.head-container {
+  display: flex;
+  justify-content: space-between;
+  height: 54px;
+  border-bottom: 1px solid black;
+  background-color: yellow;
+  align-items: stretch;
+}
+
+.start {
+  border-right: 1px solid black;
+}
+
+.middle {
+  background-color: chartreuse;
+  flex-basis: 500px;
+}
+
+.end {
+  border-left: 1px solid black;
+}

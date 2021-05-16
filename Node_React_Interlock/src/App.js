@@ -1,69 +1,35 @@
-import React from 'react';
-import axios from 'axios';
-import Movie from "./Movie";
+import React from 'react'
+import Head from './components/Head'
+import Body from './components/Body'
+import Foot from './components/Foot'
 class App extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-          isLoading: true,
-          movies: [],
-          username: null
-      }
-
-      this.getMovies = async () => {
-          // axios는 시간이 좀 걸리기 때문에 데이터를 fetch 해올 때까지 기다려줘야 한다.
-          const {
-              data : {
-                  data: { movies }
-              }
-          } = await axios.get("https://yts-proxy.nomadcoders1.now.sh/list_movies.json");
-          this.setState({movies, isLoading: false });
-      }
+  /**
+   * props    :    사용자가 컴포넌트르 이용하는데 있어서 중요한 것
+   * state    :    내부의 구현에 필요한 데이터들 ( 사용자가 알 필요없고 알아서도 안되는 부분 )
+   */
+  constructor(props) {
+    super(props)
+    this.state = {
+      username: 'seongbeom',
+      topics: null,
     }
-    componentDidMount() {
-      fetch('http://localhost:3001/api')
-          .then(res=>res.json())
-          .then(data=>this.setState({username:data.username}));
-      this.getMovies();
-   }
-  render(){
-    const {isLoading, movies, username} = this.state;
-    return (
-        <section className="container">
-            {isLoading ? (
-            <div className="loader">
-                <span className="loader__text">Loading...</span>
-            </div>
-            ) : (
-            <div className="movies">
-                {movies.map(movie => (
-                <Movie
-                    key={movie.id}
-                    id={movie.id}
-                    year={movie.year}
-                    title={username}
-                    summary={movie.summary}
-                    poster={movie.medium_cover_image}
-                    //genres={movie.genres}
-                />
-                ))}
-            </div>
-            )}
-        </section>
-    );
   }
-  // render() {
-  //   const {username} = this.state;
-  //   return (
-  //       <div className="App">
-  //         <header className="App-header">
-  //           {username ? `Hello ${username}` : 'Hello World'}
-  //         </header>
-  //       </div>
-  //   );
-  //   ;
-  // }
+
+  render() {
+    return (
+      <div>
+        <header>
+          <Head></Head>
+        </header>
+        <div>
+          <Body></Body>
+        </div>
+        <footer>
+          <Foot name={this.state.username}></Foot>
+        </footer>
+      </div>
+    )
+  }
 }
 
-export default App;
+export default App

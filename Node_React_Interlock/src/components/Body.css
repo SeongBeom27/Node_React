@@ -1,0 +1,31 @@
+.body-container {
+  display: flex;
+  height: 500px;
+  border-right: 1px solid black;
+  background-color: white;
+  align-items: stretch;
+  border-bottom: 1px solid black;
+}
+
+.body-left {
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+  border-right: 1px solid gray;
+}
+
+.body-right {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background-color: green;
+}
+
+.body-title {
+  flex-grow: 1;
+  border-bottom: 1px solid gray;
+}
+
+.body-description {
+  flex-grow: 3;
+}
