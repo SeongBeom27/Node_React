@@ -8,47 +8,29 @@ class Body extends Component {
       isLoading: false,
       id: 0,
     }
-    this.titleClick = this.titleClick.bind(this)
-    this.Gettitle = this.Gettitle.bind(this)
+    this.Gettitles = this.Gettitles.bind(this)
   }
-  titleClick(title) {
-    var i
-    var _topics = Array.from(this.props.topics)
-    for (i = 0; i < _topics.length; i++) {
-      if (_topics[i].title === title) {
-        // 상위 컴포넌트에 index를 넘겨줘야한다.
-        this.setState({
-          id: i,
-        })
-        break
-      }
-    }
-  }
-  Gettitle() {
-    var i
-    var titles = []
-    var _topics = Array.from(this.props.topics)
-    for (i = 0; i < _topics.length; i++) {
-      titles.push(_topics[i].title)
-    }
-    return titles.map(title => (
-      <a href="#" onClick={this.titleClick.bind(this, title)}>
-        {title}
-      </a>
+  Gettitles() {
+    return this.props.topics.map(topic => (
+      <button
+        //onClick={this.titleClick.bind(this, topic.title)}
+        value={topic.id}
+        onClick={function (e) {
+          this.props.onChangePage(e.target.value)
+        }.bind(this)}
+      >
+        {topic.title}
+      </button>
     ))
   }
   render() {
     if (this.props.topics != false) {
       return (
         <div className="body-container">
-          <div className="body-left">{this.Gettitle()}</div>
+          <div className="body-left">{this.Gettitles()}</div>
           <div className="body-right">
-            <div className="body-title">
-              {this.props.topics[this.state.id].title}
-            </div>
-            <div className="body-description">
-              {this.props.topics[this.state.id].description}
-            </div>
+            <div className="body-title">{this.props.title}</div>
+            <div className="body-description">{this.props.desc}</div>
           </div>
         </div>
       )

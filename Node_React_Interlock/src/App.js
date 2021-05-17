@@ -2,6 +2,7 @@ import React from 'react'
 import Head from './components/Head'
 import Body from './components/Body'
 import Foot from './components/Foot'
+import { isElementOfType } from 'react-dom/test-utils'
 class App extends React.Component {
   /**
    * props    :    사용자가 컴포넌트르 이용하는데 있어서 중요한 것
@@ -13,9 +14,11 @@ class App extends React.Component {
       username: 'seongbeom',
       topics: null,
       isLoading: false,
-      id: 0,
+      id: 2,
     }
     this.Getbody = this.Getbody.bind(this)
+    this.GetTitle = this.GetTitle.bind(this)
+    this.GetDesc = this.GetDesc.bind(this)
   }
   componentDidMount() {
     fetch('http://localhost:3001/topic')
@@ -27,17 +30,54 @@ class App extends React.Component {
         })
       )
   }
+  /**
+   * @param {*} _id  topics의 id property
+   * @return         topics 배열의 인덱스
+   */
+  GetTitle(_id) {
+    let i
+    for (i = 0; i < this.state.topics.length; i++) {
+      if (this.state.topics[i].id == _id) {
+        return this.state.topics[i].title
+      }
+    }
+    return 'Not found id'
+  }
+  GetDesc(_id) {
+    let i
+    for (i = 0; i < this.state.topics.length; i++) {
+      // ==, === 의 차이 정확히 찾기
+      if (this.state.topics[i].id == _id) {
+        return this.state.topics[i].description
+      }
+    }
+    return 'Not found id'
+  }
   Getbody() {
     if (this.state.isLoading === true) {
-      return <Body topics={this.state.topics}></Body>
+      return (
+        <Body
+          topics={this.state.topics}
+          title={this.GetTitle(this.state.id)}
+          desc={this.GetDesc(this.state.id)}
+          onChangePage={function (_id) {
+            this.setState({
+              id: _id,
+            })
+          }.bind(this)}
+        ></Body>
+      )
     } else {
       return (
         <Body
           topics={this.state.isLoading}
-          onSubmit={function (_id) {
+          title="isLoading"
+          desc="isLoading"
+          onChangePage={function (_id) {
             this.setState({
               id: _id,
             })
+            console.log(this.state.id)
           }.bind(this)}
         ></Body>
       )
