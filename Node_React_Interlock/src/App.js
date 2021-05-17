@@ -12,18 +12,44 @@ class App extends React.Component {
     this.state = {
       username: 'seongbeom',
       topics: null,
+      isLoading: false,
+      id: 0,
+    }
+    this.Getbody = this.Getbody.bind(this)
+  }
+  componentDidMount() {
+    fetch('http://localhost:3001/topic')
+      .then(res => res.json())
+      .then(res =>
+        this.setState({
+          topics: res.topics,
+          isLoading: true,
+        })
+      )
+  }
+  Getbody() {
+    if (this.state.isLoading === true) {
+      return <Body topics={this.state.topics}></Body>
+    } else {
+      return (
+        <Body
+          topics={this.state.isLoading}
+          onSubmit={function (_id) {
+            this.setState({
+              id: _id,
+            })
+          }.bind(this)}
+        ></Body>
+      )
     }
   }
-
   render() {
     return (
       <div>
         <header>
           <Head></Head>
         </header>
-        <div>
-          <Body></Body>
-        </div>
+        <div>{this.Getbody()}</div>
         <footer>
           <Foot name={this.state.username}></Foot>
         </footer>

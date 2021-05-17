@@ -1,5 +1,8 @@
 .foot-container {
-  align-items: center;
+  background-color: black;
+  color: white;
+  height: 80px;
+  align-items: stretch;
 }
 
 .foot-center {

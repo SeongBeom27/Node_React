@@ -6,28 +6,17 @@ class Body extends Component {
     super(props)
     this.state = {
       isLoading: false,
-      topics: null,
       id: 0,
     }
     this.titleClick = this.titleClick.bind(this)
     this.Gettitle = this.Gettitle.bind(this)
   }
-
-  componentDidMount() {
-    fetch('http://localhost:3001/topic')
-      .then(res => res.json())
-      .then(res =>
-        this.setState({
-          topics: res.topics,
-          isLoading: true,
-        })
-      )
-  }
   titleClick(title) {
     var i
-    var _topics = Array.from(this.state.topics)
+    var _topics = Array.from(this.props.topics)
     for (i = 0; i < _topics.length; i++) {
       if (_topics[i].title === title) {
+        // 상위 컴포넌트에 index를 넘겨줘야한다.
         this.setState({
           id: i,
         })
@@ -38,7 +27,7 @@ class Body extends Component {
   Gettitle() {
     var i
     var titles = []
-    var _topics = Array.from(this.state.topics)
+    var _topics = Array.from(this.props.topics)
     for (i = 0; i < _topics.length; i++) {
       titles.push(_topics[i].title)
     }
@@ -49,16 +38,16 @@ class Body extends Component {
     ))
   }
   render() {
-    if (this.state.isLoading != false) {
+    if (this.props.topics != false) {
       return (
         <div className="body-container">
           <div className="body-left">{this.Gettitle()}</div>
           <div className="body-right">
             <div className="body-title">
-              {this.state.topics[this.state.id].title}
+              {this.props.topics[this.state.id].title}
             </div>
             <div className="body-description">
-              {this.state.topics[this.state.id].description}
+              {this.props.topics[this.state.id].description}
             </div>
           </div>
         </div>
