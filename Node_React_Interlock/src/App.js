@@ -15,10 +15,12 @@ class App extends React.Component {
       topics: null,
       isLoading: false,
       id: 2,
+      index: 0,
     }
     this.Getbody = this.Getbody.bind(this)
-    this.GetTitle = this.GetTitle.bind(this)
-    this.GetDesc = this.GetDesc.bind(this)
+    // this.GetTitle = this.GetTitle.bind(this)
+    // this.GetDesc = this.GetDesc.bind(this)
+    this.GetIndex = this.GetIndex.bind(this)
   }
   componentDidMount() {
     fetch('http://localhost:3001/topic')
@@ -34,35 +36,27 @@ class App extends React.Component {
    * @param {*} _id  topics의 id property
    * @return         topics 배열의 인덱스
    */
-  GetTitle(_id) {
+  GetIndex(_id) {
     let i
     for (i = 0; i < this.state.topics.length; i++) {
       if (this.state.topics[i].id == _id) {
-        return this.state.topics[i].title
+        console.log(_id)
+        return i
       }
     }
-    return 'Not found id'
-  }
-  GetDesc(_id) {
-    let i
-    for (i = 0; i < this.state.topics.length; i++) {
-      // ==, === 의 차이 정확히 찾기
-      if (this.state.topics[i].id == _id) {
-        return this.state.topics[i].description
-      }
-    }
-    return 'Not found id'
+    return 0
   }
   Getbody() {
     if (this.state.isLoading === true) {
       return (
         <Body
           topics={this.state.topics}
-          title={this.GetTitle(this.state.id)}
-          desc={this.GetDesc(this.state.id)}
+          title={this.state.topics[this.state.index].title}
+          desc={this.state.topics[this.state.index].description}
           onChangePage={function (_id) {
             this.setState({
               id: _id,
+              index: this.GetIndex(_id),
             })
           }.bind(this)}
         ></Body>
@@ -76,8 +70,8 @@ class App extends React.Component {
           onChangePage={function (_id) {
             this.setState({
               id: _id,
+              index: this.Getindex(_id),
             })
-            console.log(this.state.id)
           }.bind(this)}
         ></Body>
       )
