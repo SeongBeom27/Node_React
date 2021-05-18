@@ -12,6 +12,7 @@ class App extends React.Component {
     super(props)
     this.state = {
       username: 'seongbeom',
+      mode: 'read',
       topics: null,
       isLoading: false,
       id: 2,

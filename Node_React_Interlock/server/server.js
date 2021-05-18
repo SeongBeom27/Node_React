@@ -24,6 +24,7 @@ app.use('/', IndexRouter)
  */
 app.use('/api', (req, res) => res.json({ username: 'bryan' }))
 app.use('/topic', function (req, res) {
+  // author_id 를 이용해서 author 정보도 가져오기
   db.query(`SELECT * FROM topic`, function (error, topics) {
     res.json({ topics: topics })
   })

@@ -7,7 +7,10 @@ class Head extends Component {
       <div className="head-container">
         <div className="start">home button</div>
         <div className="middle">search</div>
-        <div className="end">login</div>
+        <div className="end">
+          <div>login</div>
+          <a href="#">create</a>
+        </div>
       </div>
     )
   }

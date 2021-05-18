@@ -1,1 +1,8 @@
+2021.05.17
+
 1. body Component 에서 상위 App Componet로 사용자가 클릭하는 글에 대한 id  값 전송하기
+
+2021.05.18
+
+2. create 구현
+
