@@ -2,6 +2,7 @@ import React from 'react'
 import Head from './components/Head'
 import Body from './components/Body'
 import Foot from './components/Foot'
+import Create from './components/Create'
 import { isElementOfType } from 'react-dom/test-utils'
 class App extends React.Component {
   /**
@@ -49,19 +50,35 @@ class App extends React.Component {
   }
   Getbody() {
     if (this.state.isLoading === true) {
-      return (
-        <Body
-          topics={this.state.topics}
-          title={this.state.topics[this.state.index].title}
-          desc={this.state.topics[this.state.index].description}
-          onChangePage={function (_id) {
-            this.setState({
-              id: _id,
-              index: this.GetIndex(_id),
-            })
-          }.bind(this)}
-        ></Body>
-      )
+      if (this.state.mode == 'read') {
+        return (
+          <Body
+            topics={this.state.topics}
+            title={this.state.topics[this.state.index].title}
+            desc={this.state.topics[this.state.index].description}
+            onChangePage={function (_id) {
+              this.setState({
+                id: _id,
+                index: this.GetIndex(_id),
+              })
+            }.bind(this)}
+          ></Body>
+        )
+      } else if (this.state.mode == 'create') {
+        return (
+          // https://velog.io/@taeung/Express%EC%99%80-React-%EC%97%B0%EB%8F%99%ED%95%98%EA%B8%B0React%EC%97%90%EC%84%9C-Express%EB%A1%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B3%B4%EB%82%B4%EA%B8%B0
+          // 위 코드 이용해서 글 생성 목룍 DB로 보내기
+          <Create
+            topics={this.state.topics}
+            onSubmit={function (_title, _desc) {
+              console.log(_title, ' ', _desc)
+              this.setState({
+                mode: 'read',
+              })
+            }.bind(this)}
+          ></Create>
+        )
+      }
     } else {
       return (
         <Body
@@ -82,7 +99,13 @@ class App extends React.Component {
     return (
       <div>
         <header>
-          <Head></Head>
+          <Head
+            onChangeMode={function (_mode) {
+              this.setState({
+                mode: _mode,
+              })
+            }.bind(this)}
+          ></Head>
         </header>
         <div>{this.Getbody()}</div>
         <footer>
