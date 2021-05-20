@@ -3,7 +3,8 @@ import Head from './components/Head'
 import Body from './components/Body'
 import Foot from './components/Foot'
 import Create from './components/Create'
-import { isElementOfType } from 'react-dom/test-utils'
+//import axios from 'axios'
+//import { isElementOfType } from 'react-dom/test-utils'
 class App extends React.Component {
   /**
    * props    :    사용자가 컴포넌트르 이용하는데 있어서 중요한 것
@@ -42,7 +43,6 @@ class App extends React.Component {
     let i
     for (i = 0; i < this.state.topics.length; i++) {
       if (this.state.topics[i].id == _id) {
-        console.log(_id)
         return i
       }
     }
@@ -56,6 +56,7 @@ class App extends React.Component {
             topics={this.state.topics}
             title={this.state.topics[this.state.index].title}
             desc={this.state.topics[this.state.index].description}
+            id={this.state.topics[this.state.index].id}
             onChangePage={function (_id) {
               this.setState({
                 id: _id,
@@ -66,10 +67,15 @@ class App extends React.Component {
         )
       } else if (this.state.mode == 'create') {
         return (
-          // https://velog.io/@taeung/Express%EC%99%80-React-%EC%97%B0%EB%8F%99%ED%95%98%EA%B8%B0React%EC%97%90%EC%84%9C-Express%EB%A1%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B3%B4%EB%82%B4%EA%B8%B0
-          // 위 코드 이용해서 글 생성 목룍 DB로 보내기
           <Create
             topics={this.state.topics}
+            onChangePage={function (_id) {
+              this.setState({
+                id: _id,
+                index: this.GetIndex(_id),
+                mode: 'read',
+              })
+            }.bind(this)}
             onSubmit={function (_title, _desc) {
               console.log(_title, ' ', _desc)
               this.setState({

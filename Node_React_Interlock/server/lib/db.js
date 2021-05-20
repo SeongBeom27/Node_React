@@ -11,5 +11,3 @@ db.connect()
 
 // export 방법 1
 module.exports = db
-
-// export 방법 2

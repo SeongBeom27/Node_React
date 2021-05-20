@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './Body.css'
+import axios from 'axios'
 
 class Body extends Component {
   constructor(props) {
@@ -9,6 +10,7 @@ class Body extends Component {
       id: 0,
     }
     this.Gettitles = this.Gettitles.bind(this)
+    this.SendPostdata = this.SendPostdata.bind(this)
   }
   Gettitles() {
     return this.props.topics.map(topic => (
@@ -23,13 +25,37 @@ class Body extends Component {
       </button>
     ))
   }
+  SendPostdata(_data, _url) {
+    axios({
+      method: 'post',
+      url: _url,
+      data: {
+        id: _data,
+      },
+    })
+  }
   render() {
     if (this.props.topics != false) {
       return (
         <div className="body-container">
           <div className="body-left">{this.Gettitles()}</div>
           <div className="body-right">
-            <div className="body-title">{this.props.title}</div>
+            <div className="body-title">
+              <div className="body-title-left">{this.props.title}</div>
+              <div className="body-title-right">
+                <a href="#">update</a>
+                <button
+                  onClick={function (e) {
+                    this.SendPostdata(
+                      this.props.id,
+                      'http://localhost:3001/delete_process'
+                    )
+                  }.bind(this)}
+                >
+                  delete
+                </button>
+              </div>
+            </div>
             <div className="body-description">{this.props.desc}</div>
           </div>
         </div>

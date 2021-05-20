@@ -24,10 +24,22 @@
 }
 
 .body-title {
+  display: flex;
   flex-grow: 1;
   border-bottom: 1px solid gray;
 }
 
+.body-title-left {
+  margin-left: 5px;
+  flex-basis: 1200px;
+}
+
+.body-title-right {
+  border: 1px solid white;
+  margin-left: 5px;
+}
+
 .body-description {
+  margin-left: 5px;
   flex-grow: 3;
 }
