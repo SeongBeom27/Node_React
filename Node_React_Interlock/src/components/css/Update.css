@@ -1,0 +1,28 @@
+.body-container {
+  display: flex;
+  height: 500px;
+  border-right: 1px solid white;
+  background-color: white;
+  align-items: stretch;
+  border-bottom: 1px solid white;
+  color: white;
+}
+
+.body-left {
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+  border-right: 1px solid gray;
+  background-color: gray;
+}
+
+.body-right {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background-color: black;
+}
+
+.body-update {
+  flex-grow: 1;
+}

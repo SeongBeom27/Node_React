@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './Body.css'
+import '../css/Body.css'
 import axios from 'axios'
 
 class Body extends Component {
@@ -18,6 +18,7 @@ class Body extends Component {
         //onClick={this.titleClick.bind(this, topic.title)}
         value={topic.id}
         onClick={function (e) {
+          e.preventDefault()
           this.props.onChangePage(e.target.value)
         }.bind(this)}
       >
@@ -43,13 +44,24 @@ class Body extends Component {
             <div className="body-title">
               <div className="body-title-left">{this.props.title}</div>
               <div className="body-title-right">
-                <a href="#">update</a>
+                <a
+                  href="#"
+                  onClick={function (e) {
+                    e.preventDefault()
+                    this.props.onChangeMode('update')
+                  }.bind(this)}
+                >
+                  update
+                </a>
                 <button
                   onClick={function (e) {
+                    e.preventDefault()
                     this.SendPostdata(
                       this.props.id,
                       'http://localhost:3001/delete_process'
                     )
+                    // TODO : 임의로 0을 넣어놓음
+                    this.props.onChangePage(0)
                   }.bind(this)}
                 >
                   delete

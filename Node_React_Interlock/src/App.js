@@ -1,8 +1,11 @@
 import React from 'react'
-import Head from './components/Head'
-import Body from './components/Body'
-import Foot from './components/Foot'
-import Create from './components/Create'
+import Head from './components/Head/Head'
+import Body from './components/Body/Body'
+import Foot from './components/Foot/Foot'
+import Create from './components/Body/Create'
+import Home from './components/Body/Home'
+import Update from './components/Body/Update'
+import axios from 'axios'
 //import axios from 'axios'
 //import { isElementOfType } from 'react-dom/test-utils'
 class App extends React.Component {
@@ -14,7 +17,7 @@ class App extends React.Component {
     super(props)
     this.state = {
       username: 'seongbeom',
-      mode: 'read',
+      mode: 'home',
       topics: null,
       isLoading: false,
       id: 2,
@@ -26,6 +29,16 @@ class App extends React.Component {
     this.GetIndex = this.GetIndex.bind(this)
   }
   componentDidMount() {
+    fetch('http://localhost:3001/topic')
+      .then(res => res.json())
+      .then(res =>
+        this.setState({
+          topics: res.topics,
+          isLoading: true,
+        })
+      )
+  }
+  componentDidUpdate() {
     fetch('http://localhost:3001/topic')
       .then(res => res.json())
       .then(res =>
@@ -63,6 +76,11 @@ class App extends React.Component {
                 index: this.GetIndex(_id),
               })
             }.bind(this)}
+            onChangeMode={function (_mode) {
+              this.setState({
+                mode: _mode,
+              })
+            }.bind(this)}
           ></Body>
         )
       } else if (this.state.mode == 'create') {
@@ -84,6 +102,40 @@ class App extends React.Component {
             }.bind(this)}
           ></Create>
         )
+      } else if (this.state.mode == 'home') {
+        return (
+          <Home
+            topics={this.state.topics}
+            onChangePage={function (_id) {
+              this.setState({
+                id: _id,
+                index: this.GetIndex(_id),
+                mode: 'read',
+              })
+            }.bind(this)}
+          ></Home>
+        )
+      } else if (this.state.mode == 'update') {
+        return (
+          <Update
+            topics={this.state.topics}
+            id={this.state.id}
+            index={this.state.index}
+            onChangePage={function (_id) {
+              this.setState({
+                id: _id,
+                index: this.GetIndex(_id),
+                mode: 'read',
+              })
+            }.bind(this)}
+            onSubmit={function (_title, _desc) {
+              console.log(_title, ' ', _desc)
+              this.setState({
+                mode: 'read',
+              })
+            }.bind(this)}
+          ></Update>
+        )
       }
     } else {
       return (
@@ -102,10 +154,19 @@ class App extends React.Component {
     }
   }
   render() {
+    // fetch('http://localhost:3001/topic')
+    //   .then(res => res.json())
+    //   .then(res =>
+    //     this.setState({
+    //       topics: res.topics,
+    //       isLoading: true,
+    //     })
+    //   )
     return (
       <div>
         <header>
           <Head
+            mode={this.state.mode}
             onChangeMode={function (_mode) {
               this.setState({
                 mode: _mode,

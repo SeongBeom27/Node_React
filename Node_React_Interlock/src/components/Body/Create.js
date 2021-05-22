@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './Create.css'
+import '../css/Create.css'
 import axios from 'axios'
 
 class Create extends Component {
@@ -15,6 +15,7 @@ class Create extends Component {
         //onClick={this.titleClick.bind(this, topic.title)}
         value={topic.id}
         onClick={function (e) {
+          e.preventDefault()
           this.props.onChangePage(e.target.value)
         }.bind(this)}
       >

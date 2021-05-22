@@ -47,13 +47,26 @@ app.post('/create_process', function (req, res) {
   )
 })
 
+app.post('/update_process', function (req, res) {
+  var post = req.body
+  console.log(post)
+  db.query(
+    `update topic set title=?, description=? WHERE id=?;`,
+    [post.title, post.description, post.id],
+    function (error, result) {
+      // dbquery function의 result 객체는 insertId라는 key를 가지고 있다.
+      res.redirect(`http://localhost:3000/`)
+    }
+  )
+})
+
 app.post('/delete_process', function (req, res) {
   var post = req.body
   db.query(`DELETE FROM topic WHERE id=?`, [post.id], function (error, result) {
     if (error) {
       throw error
     }
-    res.redirect(`/`)
+    res.redirect(`http://localhost:3000/`)
   })
 })
 
