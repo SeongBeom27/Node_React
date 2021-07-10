@@ -9,6 +9,7 @@ const bodyParser = require('body-parser')
 const port = process.env.PORT || 3001
 var IndexRouter = require('./routes/index')
 var topicRouter = require('./routes/topic')
+var authRouter = require('./routes/auth')
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -29,6 +30,7 @@ app.use('/topics', function (req, res) {
  */
 app.use('/api', (req, res) => res.json({ username: 'bryan' }))
 
+app.use('/auth', authRouter)
 app.use('/topic', topicRouter)
 app.use('/', IndexRouter)
 

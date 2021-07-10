@@ -41,7 +41,7 @@ class Login extends Component {
         <div className="body-right">
           <div className="body-create">
             <form
-              action="http://localhost:3001/login_process"
+              action="http://localhost:3001/auth/login_process"
               method="post"
               /**
                * submit 버튼을 클릭했을 때, submit 버튼을 포함하고 있는 form 태그 내부 OnSubmit을 호출하게 된다.
@@ -60,22 +60,18 @@ class Login extends Component {
                 // POST 요청 전송
                 this.SendPostdata(
                   {
-                    title: e.target.email.value,
-                    description: e.target.password.value,
+                    email: e.target.email.value,
+                    password: e.target.password.value,
                   },
-                  'http://localhost:3001/login_process'
+                  'http://localhost:3001/auth/login_process'
                 )
               }.bind(this)}
             >
               <p>
-                <input type="text" name="email" placeholder="email"></input>
+                <input type="text" name="email" placeholder="email" />
               </p>
               <p>
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="password"
-                ></input>
+                <input type="password" name="password" placeholder="password" />
               </p>
               <p>
                 <input type="submit" value="login" />

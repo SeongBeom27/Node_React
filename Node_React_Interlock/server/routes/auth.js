@@ -1,8 +1,9 @@
 var express = require('express')
 var router = express.Router()
 
-router.get('/login_process', function (req, res) {
-  console.log('login_process post data : ', post)
+router.post('/login_process', function (req, res) {
+  var post = req.body
+  console.log('post data : ', post)
   res.redirect(`http://localhost:3000/`)
 })
 

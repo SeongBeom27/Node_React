@@ -148,8 +148,8 @@ class App extends React.Component {
                 mode: 'read',
               })
             }.bind(this)}
-            onSubmit={function (_title, _desc) {
-              console.log(_title, ' ', _desc)
+            onSubmit={function (_email, _pwd) {
+              console.log(_email, ' ', _pwd)
               this.setState({
                 mode: 'read',
               })
