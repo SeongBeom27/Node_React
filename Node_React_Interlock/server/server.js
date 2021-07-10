@@ -7,13 +7,18 @@ const db = require('./lib/db')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const port = process.env.PORT || 3001
+var IndexRouter = require('./routes/index')
+var topicRouter = require('./routes/topic')
 
 app.use(cors())
 app.use(bodyParser.json())
 
-var IndexRouter = require('./routes/index')
-
-app.use('/', IndexRouter)
+app.use('/topics', function (req, res) {
+  // author_id 를 이용해서 author 정보도 가져오기
+  db.query(`SELECT * FROM topic`, function (error, topics) {
+    res.json({ topics: topics })
+  })
+})
 /**
  * localhost:3001/api url로 
  * 
@@ -23,52 +28,9 @@ app.use('/', IndexRouter)
     위 json 데이터를 보낸다
  */
 app.use('/api', (req, res) => res.json({ username: 'bryan' }))
-app.use('/topic', function (req, res) {
-  // author_id 를 이용해서 author 정보도 가져오기
-  db.query(`SELECT * FROM topic`, function (error, topics) {
-    res.json({ topics: topics })
-  })
-})
-// https://stackoverflow.com/questions/51115640/how-to-send-form-data-from-react-to-express/51116082
-// https://stackoverflow.com/questions/54952355/how-to-post-data-from-react-to-express
-// 참고하기
-app.post('/create_process', function (req, res) {
-  var post = req.body
-  console.log('post data : ', post)
-  db.query(
-    `INSERT INTO topic (title, description, created, author_id) VALUES(?, ?, NOW(), 1);`,
-    [post.title, post.description],
-    function (error, result) {
-      // dbquery function의 result 객체는 insertId라는 key를 가지고 있다.
-      // res.writeHead(302, { Location: `/topic/${result.insertId}` });
-      // res.end();
-      res.redirect(`http://localhost:3000/`)
-    }
-  )
-})
 
-app.post('/update_process', function (req, res) {
-  var post = req.body
-  console.log(post)
-  db.query(
-    `update topic set title=?, description=? WHERE id=?;`,
-    [post.title, post.description, post.id],
-    function (error, result) {
-      // dbquery function의 result 객체는 insertId라는 key를 가지고 있다.
-      res.redirect(`http://localhost:3000/`)
-    }
-  )
-})
-
-app.post('/delete_process', function (req, res) {
-  var post = req.body
-  db.query(`DELETE FROM topic WHERE id=?`, [post.id], function (error, result) {
-    if (error) {
-      throw error
-    }
-    res.redirect(`http://localhost:3000/`)
-  })
-})
+app.use('/topic', topicRouter)
+app.use('/', IndexRouter)
 
 app.listen(port, () => {
   console.log(`express is running on ${port}`)

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import '../css/Create.css'
+import '../css/Login.css'
 import axios from 'axios'
 
-class Create extends Component {
+class Login extends Component {
   constructor(props) {
     super(props)
 
@@ -19,7 +19,7 @@ class Create extends Component {
           this.props.onChangePage(e.target.value)
         }.bind(this)}
       >
-        {topic.title}
+        {topic.title}{' '}
       </button>
     ))
   }
@@ -29,19 +29,19 @@ class Create extends Component {
       method: 'post',
       url: _url,
       data: {
-        title: _data.title,
-        description: _data.description,
+        email: _data.email,
+        password: _data.password,
       },
     })
   }
   render() {
     return (
       <div className="body-container">
-        <div className="body-left"> {this.Gettitles()} </div>
+        <div className="body-left"> {this.Gettitles()} </div>{' '}
         <div className="body-right">
           <div className="body-create">
             <form
-              action="http://localhost:3001/topic/create_process"
+              action="http://localhost:3001/login_process"
               method="post"
               /**
                * submit 버튼을 클릭했을 때, submit 버튼을 포함하고 있는 form 태그 내부 OnSubmit을 호출하게 된다.
@@ -53,25 +53,32 @@ class Create extends Component {
               onSubmit={function (e) {
                 // onSubmit의 e.target property는 form data를 담고 있다.
                 // props인 _title, _desc에 아래 e.target.title.value, e.target.desc.value를 넘겨준다.
-                this.props.onSubmit(e.target.title.value, e.target.desc.value)
+                this.props.onSubmit(
+                  e.target.email.value,
+                  e.target.password.value
+                )
                 // POST 요청 전송
                 this.SendPostdata(
                   {
-                    title: e.target.title.value,
-                    description: e.target.desc.value,
+                    title: e.target.email.value,
+                    description: e.target.password.value,
                   },
-                  'http://localhost:3001/topic/create_process'
+                  'http://localhost:3001/login_process'
                 )
               }.bind(this)}
             >
               <p>
-                <input type="text" name="title" placeholder="title" />
+                <input type="text" name="email" placeholder="email"></input>
               </p>
               <p>
-                <textarea name="desc" placeholder="description"></textarea>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="password"
+                ></input>
               </p>
               <p>
-                <input type="submit" />
+                <input type="submit" value="login" />
               </p>
             </form>
           </div>
@@ -81,4 +88,4 @@ class Create extends Component {
   }
 }
 
-export default Create
+export default Login

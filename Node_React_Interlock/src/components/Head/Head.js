@@ -20,7 +20,17 @@ class Head extends Component {
         </div>
         <div className="middle">search</div>
         <div className="end">
-          <div>login</div>
+          <div>
+            <a
+              href="#"
+              onClick={function (e) {
+                e.preventDefault()
+                this.props.onChangeMode('login')
+              }.bind(this)}
+            >
+              login
+            </a>
+          </div>
           <a
             href="#"
             onClick={function (e) {

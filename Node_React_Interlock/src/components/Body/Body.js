@@ -58,7 +58,7 @@ class Body extends Component {
                     e.preventDefault()
                     this.SendPostdata(
                       this.props.id,
-                      'http://localhost:3001/delete_process'
+                      'http://localhost:3001/topic/delete_process'
                     )
                     // TODO : 임의로 0을 넣어놓음
                     this.props.onChangePage(0)

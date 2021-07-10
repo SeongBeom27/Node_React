@@ -54,7 +54,7 @@ class Update extends Component {
           <div className="body-right">
             <div className="body-update">
               <form
-                action="/http://localhost:3001/update_process"
+                action="/http://localhost:3001/topic/update_process"
                 method="post"
                 onSubmit={function (e) {
                   // onSubmit의 e.target property는 form data를 담고 있다.
@@ -67,7 +67,7 @@ class Update extends Component {
                       description: e.target.desc.value,
                       id: e.target.id.value,
                     },
-                    'http://localhost:3001/update_process'
+                    'http://localhost:3001/topic/update_process'
                   )
                 }.bind(this)}
               >

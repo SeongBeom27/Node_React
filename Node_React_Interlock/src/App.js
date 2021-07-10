@@ -3,6 +3,7 @@ import Head from './components/Head/Head'
 import Body from './components/Body/Body'
 import Foot from './components/Foot/Foot'
 import Create from './components/Body/Create'
+import Login from './components/Body/Login'
 import Home from './components/Body/Home'
 import Update from './components/Body/Update'
 import axios from 'axios'
@@ -29,7 +30,7 @@ class App extends React.Component {
     this.GetIndex = this.GetIndex.bind(this)
   }
   componentDidMount() {
-    fetch('http://localhost:3001/topic')
+    fetch('http://localhost:3001/topics')
       .then(res => res.json())
       .then(res =>
         this.setState({
@@ -39,7 +40,7 @@ class App extends React.Component {
       )
   }
   componentDidUpdate() {
-    fetch('http://localhost:3001/topic')
+    fetch('http://localhost:3001/topics')
       .then(res => res.json())
       .then(res =>
         this.setState({
@@ -136,21 +137,40 @@ class App extends React.Component {
             }.bind(this)}
           ></Update>
         )
+      } else if (this.state.mode == 'login') {
+        return (
+          <Login
+            topics={this.state.topics}
+            onChangePage={function (_id) {
+              this.setState({
+                id: _id,
+                index: this.GetIndex(_id),
+                mode: 'read',
+              })
+            }.bind(this)}
+            onSubmit={function (_title, _desc) {
+              console.log(_title, ' ', _desc)
+              this.setState({
+                mode: 'read',
+              })
+            }.bind(this)}
+          ></Login>
+        )
+      } else {
+        return (
+          <Body
+            topics={this.state.isLoading}
+            title="isLoading"
+            desc="isLoading"
+            onChangePage={function (_id) {
+              this.setState({
+                id: _id,
+                index: this.Getindex(_id),
+              })
+            }.bind(this)}
+          ></Body>
+        )
       }
-    } else {
-      return (
-        <Body
-          topics={this.state.isLoading}
-          title="isLoading"
-          desc="isLoading"
-          onChangePage={function (_id) {
-            this.setState({
-              id: _id,
-              index: this.Getindex(_id),
-            })
-          }.bind(this)}
-        ></Body>
-      )
     }
   }
   render() {
