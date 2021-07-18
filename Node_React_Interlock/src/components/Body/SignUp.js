@@ -1,0 +1,93 @@
+import React, { Component } from 'react'
+import '../css/SignUp.css'
+import axios from 'axios'
+
+class SignUp extends Component {
+  constructor(props) {
+    super(props)
+
+    this.Gettitles = this.Gettitles.bind(this)
+    this.SendPostdata = this.SendPostdata.bind(this)
+  }
+  Gettitles() {
+    return this.props.topics.map(topic => (
+      <button
+        //onClick={this.titleClick.bind(this, topic.title)}
+        value={topic.id}
+        onClick={function (e) {
+          e.preventDefault()
+          this.props.onChangePage(e.target.value)
+        }.bind(this)}
+      >
+        {topic.title}{' '}
+      </button>
+    ))
+  }
+
+  SendPostdata(_data, _url) {
+    axios({
+      method: 'post',
+      url: _url,
+      data: {
+        nickname: _data.nickname,
+        email: _data.email,
+        password: _data.password,
+      },
+    })
+  }
+  render() {
+    return (
+      <div className="body-container">
+        <div className="body-left"> {this.Gettitles()} </div>{' '}
+        <div className="body-right">
+          <div className="body-create">
+            <form
+              action="http://localhost:3001/auth/signup_process"
+              method="post"
+              /**
+               * submit 버튼을 클릭했을 때, submit 버튼을 포함하고 있는 form 태그 내부 OnSubmit을 호출하게 된다.
+               *
+               * e.preventDefault() 함수를 쓰면 화면이 /create_process로 이동되는 것을 방지해 준다.
+               *
+               * 현재 우리는 page 전환 없이 만들려고하는 중
+               *  */
+              onSubmit={function (e) {
+                // onSubmit의 e.target property는 form data를 담고 있다.
+                // props인 _title, _desc에 아래 e.target.title.value, e.target.desc.value를 넘겨준다.
+                this.props.onSubmit(
+                  e.target.nickname.value,
+                  e.target.email.value,
+                  e.target.password.value
+                )
+                // POST 요청 전송
+                this.SendPostdata(
+                  {
+                    nickname: e.target.nickname.value,
+                    email: e.target.email.value,
+                    password: e.target.password.value,
+                  },
+                  'http://localhost:3001/auth/signup_process'
+                )
+              }.bind(this)}
+            >
+              <p>
+                <input type="text" name="nickname" placeholder="nickname" />
+              </p>
+              <p>
+                <input type="text" name="email" placeholder="email" />
+              </p>
+              <p>
+                <input type="password" name="password" placeholder="password" />
+              </p>
+              <p>
+                <input type="submit" value="signup" />
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    )
+  }
+}
+
+export default SignUp

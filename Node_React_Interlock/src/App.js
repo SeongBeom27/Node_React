@@ -6,6 +6,7 @@ import Create from './components/Body/Create'
 import Login from './components/Body/Login'
 import Home from './components/Body/Home'
 import Update from './components/Body/Update'
+import SignUp from './components/Body/SignUp'
 import axios from 'axios'
 //import axios from 'axios'
 //import { isElementOfType } from 'react-dom/test-utils'
@@ -155,6 +156,25 @@ class App extends React.Component {
               })
             }.bind(this)}
           ></Login>
+        )
+      } else if (this.state.mode == 'signup') {
+        return (
+          <SignUp
+            topics={this.state.topics}
+            onChangePage={function (_id) {
+              this.setState({
+                id: _id,
+                index: this.GetIndex(_id),
+                mode: 'read',
+              })
+            }.bind(this)}
+            onSubmit={function (_email, _pwd) {
+              console.log(_email, ' ', _pwd)
+              this.setState({
+                mode: 'read',
+              })
+            }.bind(this)}
+          ></SignUp>
         )
       } else {
         return (

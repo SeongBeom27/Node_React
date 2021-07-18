@@ -31,15 +31,28 @@ class Head extends Component {
               login
             </a>
           </div>
-          <a
-            href="#"
-            onClick={function (e) {
-              e.preventDefault()
-              this.props.onChangeMode('create')
-            }.bind(this)}
-          >
-            create
-          </a>
+          <div>
+            <a
+              href="#"
+              onClick={function (e) {
+                e.preventDefault()
+                this.props.onChangeMode('signup')
+              }.bind(this)}
+            >
+              signup
+            </a>
+          </div>
+          <div>
+            <a
+              href="#"
+              onClick={function (e) {
+                e.preventDefault()
+                this.props.onChangeMode('create')
+              }.bind(this)}
+            >
+              create
+            </a>
+          </div>
         </div>
       </div>
     )
